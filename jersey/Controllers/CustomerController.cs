@@ -38,15 +38,20 @@ namespace Jersey.Controllers
             return customer;
         }
 
+        
         // POST: api/Customer
         [HttpPost]
         public async Task<ActionResult<Customer>> PostCustomer(Customer customer)
         {
+            // Ensure the CustomerId is not set explicitly
+            customer.CustomerId = 0;
+
             _context.Customers.Add(customer);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetCustomer), new { id = customer.CustomerId }, customer);
         }
+
 
         // PUT: api/Customer/5
         [HttpPut("{id}")]

@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
+
 namespace jersey.Models
 {
     public class Customer
@@ -14,12 +16,12 @@ namespace jersey.Models
         [EmailAddress(ErrorMessage = "Invalid email format.")]
         public string Email { get; set; }
 
-        [MaxLength(15)]
-        [RegularExpression(@"^\d{11}$", ErrorMessage = "Phone number must not be 11 characters.")]
+        [MaxLength(11)]
+        [RegularExpression(@"^\d{11}$", ErrorMessage = "Phone number must be 11 digits.")]
         public string Phone { get; set; }
 
         // Navigation property
-        public ICollection<Order> Orders { get; set; }
+        [JsonIgnore]
+        public ICollection<Order>? Orders { get; set; } // Made optional
     }
 }
-

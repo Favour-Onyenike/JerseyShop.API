@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
+
 namespace jersey.Models
 {
     public class Order
@@ -7,16 +9,17 @@ namespace jersey.Models
         [Key]
         public int OrderId { get; set; }
 
-        [Required(ErrorMessage = "Order date is required.")]
         public DateTime OrderDate { get; set; }
 
         [Required]
         public int CustomerId { get; set; }
 
         [ForeignKey("CustomerId")]
-        public Customer Customer { get; set; }
+        [JsonIgnore]
+        public Customer? Customer { get; set; }
 
-        // Navigation property
-        public ICollection<Payment> Payments { get; set; }
+        // Make Payments optional
+        [JsonIgnore]
+        public ICollection<Payment>? Payments { get; set; } = new List<Payment>(); // Default to an empty list to avoid null reference issues
     }
 }
